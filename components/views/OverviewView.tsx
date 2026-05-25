@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import KpiCard from "../KpiCard";
 import BpDistributionCard from "../BpDistributionCard";
 import FollowUpDonutCard from "../FollowUpDonutCard";
 import AdherenceTable from "../AdherenceTable";
+import { analytics } from "@/lib/api";
 
 interface OverviewViewProps {
   onToast: (msg: string) => void;
@@ -12,22 +13,37 @@ interface OverviewViewProps {
 
 type FilterPeriod = "today" | "week" | "month";
 
-const filterData: Record<FilterPeriod, { screened: number; msgs: number; refs: number; adh: number }> = {
-  today: { screened: 47, msgs: 47, refs: 19, adh: 78 },
-  week:  { screened: 247, msgs: 247, refs: 62, adh: 74 },
-  month: { screened: 712, msgs: 712, refs: 148, adh: 71 },
-};
+interface DashSummary {
+  total_screened?: number;
+  messages_sent?: number;
+  total_referrals?: number;
+  adherence_rate?: number;
+  bp_distribution?: Record<string, number>;
+}
 
 export default function OverviewView({ onToast }: OverviewViewProps) {
   const [filter, setFilter] = useState<FilterPeriod>("today");
-  const d = filterData[filter];
+  const [summary, setSummary] = useState<DashSummary>({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    analytics.summary()
+      .then(data => setSummary(data as DashSummary))
+      .catch(() => onToast("Could not load dashboard summary"))
+      .finally(() => setLoading(false));
+  }, [onToast]);
+
+  const screened = summary.total_screened ?? 0;
+  const msgs     = summary.messages_sent ?? screened;
+  const refs     = summary.total_referrals ?? 0;
+  const adh      = summary.adherence_rate != null ? Math.round(summary.adherence_rate * 100) : 0;
 
   return (
     <div>
       <div className="flex justify-between items-start" style={{ marginBottom: 22 }}>
         <div>
           <div style={{ fontSize: "1.25rem", fontWeight: 600, color: "var(--ink)" }}>Programme Overview</div>
-          <div style={{ fontSize: ".76rem", color: "var(--gray)", marginTop: 3 }}>Kpando Market Screening · 18 May 2026 · Ho Municipal</div>
+          <div style={{ fontSize: ".76rem", color: "var(--gray)", marginTop: 3 }}>Ho Municipal Health Directorate</div>
         </div>
         <div className="flex gap-1.5">
           {(["today","week","month"] as FilterPeriod[]).map(p => (
@@ -48,14 +64,14 @@ export default function OverviewView({ onToast }: OverviewViewProps) {
       </div>
 
       <div className="grid grid-cols-4 gap-3" style={{ marginBottom: 16 }}>
-        <KpiCard icon="🩺" label="Total Screened"    value={d.screened} delta="↑ 12 vs last event"  deltaType="up" />
-        <KpiCard icon="📨" label="WA Messages Sent"  value={d.msgs}     delta="99.1% delivery rate" deltaType="up" />
-        <KpiCard icon="🏥" label="Referrals Issued"  value={d.refs}     delta="8 pending follow-up" deltaType="dn" valueRed />
-        <KpiCard icon="💊" label="Adherence Rate"    value={`${d.adh}%`} delta="↑ 4% this week"    deltaType="up" />
+        <KpiCard icon="🩺" label="Total Screened"   value={loading ? "…" : screened} delta="↑ 12 vs last event"  deltaType="up" />
+        <KpiCard icon="📨" label="WA Messages Sent" value={loading ? "…" : msgs}     delta="99.1% delivery rate" deltaType="up" />
+        <KpiCard icon="🏥" label="Referrals Issued" value={loading ? "…" : refs}     delta="8 pending follow-up" deltaType="dn" valueRed />
+        <KpiCard icon="💊" label="Adherence Rate"   value={loading ? "…" : `${adh}%`} delta="↑ 4% this week"   deltaType="up" />
       </div>
 
       <div className="grid gap-3.5" style={{ gridTemplateColumns: "1fr 320px", marginBottom: 14 }}>
-        <BpDistributionCard />
+        <BpDistributionCard bpDistribution={summary.bp_distribution} />
         <FollowUpDonutCard />
       </div>
 

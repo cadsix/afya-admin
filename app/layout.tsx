@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${outfit.variable} ${jetbrains.variable} ${cormorant.variable} h-full`}>
-      <body className="h-full flex flex-col overflow-hidden" style={{ fontFamily: "var(--font-outfit), sans-serif", background: "var(--off)", color: "var(--ink)" }}>
+      <body suppressHydrationWarning className="h-full flex flex-col overflow-hidden" style={{ fontFamily: "var(--font-outfit), sans-serif", background: "var(--off)", color: "var(--ink)" }}>
         {children}
       </body>
     </html>
