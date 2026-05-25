@@ -32,7 +32,7 @@ export default function EventsView({ onToast, onNewEvent }: EventsViewProps) {
 
   return (
     <div>
-      <div className="flex justify-between items-start" style={{ marginBottom: 22 }}>
+      <div className="flex flex-wrap justify-between items-start gap-3" style={{ marginBottom: 22 }}>
         <div>
           <div style={{ fontSize: "1.25rem", fontWeight: 600, color: "var(--ink)" }}>Screening Events</div>
           <div style={{ fontSize: ".76rem", color: "var(--gray)", marginTop: 3 }}>All events under Ho Municipal Health Directorate</div>

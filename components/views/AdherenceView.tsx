@@ -81,7 +81,7 @@ export default function AdherenceView() {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-3" style={{ marginBottom: 16 }}>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3" style={{ marginBottom: 16 }}>
         <KpiCard icon="" label="Active Patients"    value={loading ? "…" : active}                          delta="enrolled in programme"  deltaType="up" />
         <KpiCard icon="" label="Avg Adherence Rate" value={loading ? "…" : `${Math.round(avgRate * 100)}%`} delta="↑ 4% vs last week"       deltaType="up" />
         <KpiCard icon="" label="Needs Outreach"     value={loading ? "…" : outreach}                        delta="7+ days no reply"        deltaType="dn" valueRed />

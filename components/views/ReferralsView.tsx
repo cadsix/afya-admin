@@ -45,7 +45,7 @@ export default function ReferralsView({ onToast }: ReferralsViewProps) {
         <div style={{ fontSize: ".76rem", color: "var(--gray)", marginTop: 3 }}>All high-BP participants referred to clinical care</div>
       </div>
 
-      <div className="grid grid-cols-3 gap-3" style={{ marginBottom: 16 }}>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3" style={{ marginBottom: 16 }}>
         <KpiCard icon="" label="Total Referrals"   value={loading ? "…" : total}    delta="Last 30 days"     deltaType="neutral" />
         <KpiCard icon="" label="Attended Clinic"   value={loading ? "…" : attended} delta={`${total > 0 ? Math.round((attended/total)*100) : 0}% conversion`} deltaType="up" />
         <KpiCard icon="" label="Pending / Overdue" value={loading ? "…" : pendingN} delta="awaiting follow-up" deltaType="dn" valueRed />

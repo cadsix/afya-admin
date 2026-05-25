@@ -23,14 +23,13 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+html, body { height: 100%; }
+
 body {
   font-family: 'Outfit', sans-serif;
   background: var(--off);
   color: var(--ink);
-  height: 100vh;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  /* no overflow:hidden — let mobile scroll naturally */
 }
 
 ::-webkit-scrollbar { width: 3px; }
@@ -42,3 +41,13 @@ body {
 }
 
 .logo-dot-anim { animation: blink 2s infinite; }
+
+/* Sidebar drawer overlay */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 13, 14, 0.4);
+  z-index: 40;
+}
+.sidebar-overlay.open { display: block; }

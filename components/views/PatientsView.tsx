@@ -82,7 +82,7 @@ export default function PatientsView({ onToast }: PatientsViewProps) {
 
   return (
     <div>
-      <div className="flex justify-between items-start" style={{ marginBottom: 22 }}>
+      <div className="flex flex-wrap justify-between items-start gap-3" style={{ marginBottom: 22 }}>
         <div>
           <div style={{ fontSize: "1.25rem", fontWeight: 600, color: "var(--ink)" }}>All Patients</div>
           <div style={{ fontSize: ".76rem", color: "var(--gray)", marginTop: 3 }}>{total} total participants across all events</div>
@@ -97,7 +97,7 @@ export default function PatientsView({ onToast }: PatientsViewProps) {
 
       <div style={{ background: "var(--white)", border: "1px solid var(--gray-lt)", borderRadius: 4, overflow: "hidden" }}>
         <div className="flex justify-between items-center" style={{ padding: "13px 18px", borderBottom: "1px solid var(--gray-lt)" }}>
-          <div className="flex gap-2 items-center">
+          <div className="flex flex-wrap gap-2 items-center">
             <input
               value={search}
               onChange={e => handleSearch(e.target.value)}
