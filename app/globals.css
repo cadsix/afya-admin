@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+:root {
+  --red: #C41E3A;
+  --red-deep: #8B1020;
+  --red-soft: #E8394F;
+  --red-pale: #FDF2F4;
+  --red-mist: #F5D5DB;
+  --white: #FFFFFF;
+  --off: #FAFAFA;
+  --ink: #0F0D0E;
+  --ink-mid: #3A2A2E;
+  --gray: #7C6B6F;
+  --gray-lt: #E8E2E3;
+  --gray-xlt: #F5F1F2;
+  --green: #1A7A4A;
+  --green-bg: #F0FBF5;
+  --green-border: #A8D5BC;
+  --amber: #B05A00;
+  --amber-bg: #FFFBF0;
+  --amber-border: #F0D090;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--off);
+  color: var(--ink);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-thumb { background: var(--red); }
+
+@keyframes blink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.4); }
+}
+
+.logo-dot-anim { animation: blink 2s infinite; }
